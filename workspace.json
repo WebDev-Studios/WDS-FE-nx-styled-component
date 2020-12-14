@@ -1,0 +1,107 @@
+{
+  "version": 2,
+  "projects": {
+    "merce": {
+      "root": "apps/merce",
+      "sourceRoot": "apps/merce",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "root": "apps/merce",
+            "outputPath": "dist/apps/merce"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "merce:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "merce:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "merce:build:production"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/merce/**/*.{ts,tsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/merce"
+          ],
+          "options": {
+            "jestConfig": "apps/merce/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "merce-e2e": {
+      "root": "apps/merce-e2e",
+      "sourceRoot": "apps/merce-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/merce-e2e/cypress.json",
+            "tsConfig": "apps/merce-e2e/tsconfig.e2e.json",
+            "devServerTarget": "merce:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "merce:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/merce-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "merce"
+}
